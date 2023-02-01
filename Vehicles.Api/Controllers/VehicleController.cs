@@ -61,9 +61,9 @@ namespace Vehicles.Api.Controllers
 
         [HttpDelete]
         [Route("{id?}")]
-        public async Task<ActionResult> Delete(int vehicleId) 
+        public async Task<ActionResult> Delete(int id) 
         {
-            await _vehicleService.DeleteVehicle(vehicleId);
+            await _vehicleService.DeleteVehicle(id);
             return Ok();
         }
 

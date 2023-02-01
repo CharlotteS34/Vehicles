@@ -254,19 +254,24 @@ namespace Vehicles.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task Put_ReturnsOK_WhenVehicleIsValid()
+        public async Task Put_ReturnsOK_WhenVehicleIsValid_AndShouldUpdateVehicle()
         {
             var vehicle = await CreateVehicle();
             var request = new UpdateVehicleRequest
             {
                 VehicleId = vehicle.VehicleId.Value,
-                Year = 2012,
+                Year = 2013,
                 Make = "Audi",
                 Model = "A6",
                 Colour = "Red"
             };
             var response = await _client.PutAsJsonAsync(_baseUrl, request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var updatedVehicle = await GetVehicle(request.VehicleId);
+            updatedVehicle.Year.Should().Be(request.Year);
+            updatedVehicle.Make.Should().Be(request.Make);
+            updatedVehicle.Model.Should().Be(request.Model);
+            updatedVehicle.Colour.Should().Be(request.Colour);
         }
 
         private async Task<VehicleDetailsDTO> CreateVehicle() 
@@ -280,6 +285,12 @@ namespace Vehicles.IntegrationTests.Controllers
             };
             var createVehicleResponse = await _client.PostAsJsonAsync(_baseUrl, request);
             return await createVehicleResponse.GetResponseBodyAsync<VehicleDetailsDTO>();
+        }
+
+        private async Task<VehicleDetailsDTO> GetVehicle(int vehicleId) 
+        {
+            var response = await _client.GetAsync($"{_baseUrl}/{vehicleId}");
+            return await response.GetResponseBodyAsync<VehicleDetailsDTO>();
         }
     }
 }

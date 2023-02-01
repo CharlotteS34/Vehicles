@@ -14,7 +14,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<VehicleDbContext>(options => options.UseSqlServer(@"Server=DESKTOP-4BU15UU\MSSQLSERVER03;Database=Vehicles;TrustServerCertificate=True;Integrated Security=SSPI;"));
+var connectionString = builder.Configuration["DatabaseConnectionString"];
+//var connectionString = @"Server=DESKTOP-4BU15UU\MSSQLSERVER03;Database=Vehicles;TrustServerCertificate=True;Integrated Security=SSPI;";
+builder.Services.AddDbContext<VehicleDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 

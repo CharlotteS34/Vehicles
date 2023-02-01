@@ -68,6 +68,7 @@ namespace Vehicles.Business.Services
                     Message = $"Vehicle with id {vehicleUpdate.VehicleId} not found."
                 };
             }
+            vehicle.Year = vehicleUpdate.Year;
             if (vehicleUpdate.Colour != null) 
             {
                 var colour = await _vehicleRepository.GetColour(vehicleUpdate.Colour);
