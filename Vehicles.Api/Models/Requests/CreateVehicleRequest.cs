@@ -6,7 +6,11 @@ namespace Vehicles.Api.Models.Requests
     {
         [Range(1900, Int32.MaxValue)]
         public int Year { get; set; }
-        public int ColourId { get; set; }
-        public int ModelId { get; set; }
+        [Required]
+        public string Colour { get; set; }
+        [Required]
+        public string Make { get; set; }
+        [Required]
+        public string Model { get; set; }
     }
 }

@@ -27,11 +27,9 @@ namespace Vehicles.IntegrationTests.Controllers
             _client = factory.CreateClient();
         }
 
-        public DbConnection Connection => _connection;
-
         public void Dispose()
         {
-            Connection.Close();
+            _connection.Close();
         }
     }
 }

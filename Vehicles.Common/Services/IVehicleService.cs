@@ -1,4 +1,5 @@
 ﻿using Vehicles.Common.Models;
+using Vehicles.Common.Models.Results;
 
 namespace Vehicles.Common.Services
 {
@@ -6,7 +7,8 @@ namespace Vehicles.Common.Services
     {
         public Task<IEnumerable<VehicleDetailsDTO>> GetVehicles();
         public Task<VehicleDetailsDTO?> GetVehicle(int vehicleId);
-        public Task<VehicleDTO> CreateVehicle(VehicleDTO vehicle);
+        public Task<ServiceResult<VehicleDetailsDTO>> CreateVehicle(VehicleDetailsDTO vehicleDetails);
         public Task DeleteVehicle(int vehicleId);
+        public Task<ServiceResult> UpdateVehicle(VehicleDetailsDTO vehicleUpdate);
     }
 }

@@ -12,6 +12,8 @@ namespace Vehicles.Repository
         {
         }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Colour> Colours { get; set; }
+        public DbSet<Model> Models { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

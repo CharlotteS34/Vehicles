@@ -41,14 +41,58 @@ namespace Vehicles.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(CreateVehicleRequest request) 
         {
-            var vehicle = new VehicleDTO 
+            var vehicle = new VehicleDetailsDTO 
             {
-                ModelId = request.ModelId,
-                ColourId = request.ColourId,
+                Make = request.Make,
+                Model = request.Model,
+                Colour = request.Colour,
                 Year = request.Year
             };
-            var vehicleResult = await _vehicleService.CreateVehicle(vehicle);
-            return Created($"vehicle/{vehicleResult.VehicleId}", vehicleResult);
+            var result = await _vehicleService.CreateVehicle(vehicle);
+            if (result.Success)
+            {
+                return Created($"vehicle/{result.ResultValue.VehicleId}", result.ResultValue);
+            }
+            else 
+            {
+                return BadRequest(result.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id?}")]
+        public async Task<ActionResult> Delete(int vehicleId) 
+        {
+            await _vehicleService.DeleteVehicle(vehicleId);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(UpdateVehicleRequest request) 
+        {
+            var result = await _vehicleService.UpdateVehicle(new VehicleDetailsDTO 
+            {
+                VehicleId = request.VehicleId,
+                Year = request.Year,
+                Make = request.Make,
+                Model = request.Model,
+                Colour = request.Colour
+            });
+            if (result.Success) 
+            {
+                return Ok();
+            }
+            else
+            {
+                if (result.Message.ToUpper().Contains("NOT FOUND"))
+                {
+                    return NotFound(result.Message);
+                }
+                else 
+                {
+                    return BadRequest(result.Message);
+                }
+            }
         }
     }
 }
